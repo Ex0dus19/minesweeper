@@ -7,21 +7,17 @@ class Cell (private var cl: Boolean, private  val r: Int, private  val c: Int) {
     var adjCells = mutableListOf<Cell>()
     var hasEx = false
     private var numAdjBombs = 0   //bombs near cell
-
+    //Thanks for the code advice lol
     private fun getAdjCells(cell: Cell) : List<Cell> {
         var adjCells = mutableListOf<Cell?>()
-        if (r in 1..8) {
-            if (c in 1..8) {
-                adjCells.add(MainActivity.cells[r-1][c-1])
-                adjCells.add(MainActivity.cells[r-1][c])
-                adjCells.add(MainActivity.cells[r-1][c+1])
-                adjCells.add(MainActivity.cells[r][c-1])
-                adjCells.add(MainActivity.cells[r][c+1])
-                adjCells.add(MainActivity.cells[r+1][c-1])
-                adjCells.add(MainActivity.cells[r+1][c])
-                adjCells.add(MainActivity.cells[r+1][c+1])
-            }
-        }
+        adjCells.add(MainActivity.cells.getOrNull(r-1)?.getOrNull(c-1))
+        adjCells.add(MainActivity.cells.getOrNull(r-1)?.getOrNull(c))
+        adjCells.add(MainActivity.cells.getOrNull(r-1)?.getOrNull(c+1))
+        adjCells.add(MainActivity.cells.getOrNull(r)?.getOrNull(c-1))
+        adjCells.add(MainActivity.cells.getOrNull(r)?.getOrNull(c+1))
+        adjCells.add(MainActivity.cells.getOrNull(r+1)?.getOrNull(c-1))
+        adjCells.add(MainActivity.cells.getOrNull(r+1)?.getOrNull(c))
+        adjCells.add(MainActivity.cells.getOrNull(r+1)?.getOrNull(c+1))
         return adjCells.toList().filterNotNull()
     }
 
@@ -51,11 +47,13 @@ class Cell (private var cl: Boolean, private  val r: Int, private  val c: Int) {
             }else {
                 return R.drawable.cell_bomb
             }
+        }else if (isFlagged) {
+            return R.drawable.cell_flagged
         }
         return R.drawable.cell_fd
     }
 
 }
 
-
+//Its midnight and I'm tired. Plz help
 

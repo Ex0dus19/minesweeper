@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridView
+        android:id="@+id/board_grid"
         android:layout_width="309dp"
         android:layout_height="433dp"
         android:layout_marginStart="24dp"
@@ -34,10 +35,12 @@
         android:id="@+id/reset_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/_dynamic"
-        app:layout_constraintVertical_bias="0.392" />
+        app:layout_constraintTop_toBottomOf="@+id/board_grid"
+        app:layout_constraintVertical_bias="0.344" />
 </androidx.constraintlayout.widget.ConstraintLayout>

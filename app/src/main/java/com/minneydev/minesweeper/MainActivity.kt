@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
         const val NUM_COL = 10
         const val NUM_BOMB = 10
     }
+    private var cellsLeft = ((NUM_COL* NUM_COL) - NUM_BOMB)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,11 +26,16 @@ class MainActivity : AppCompatActivity() {
         reset_btn.text = getString(R.string.reset)
         initialize()
         board_grid.onItemClickListener = AdapterView.OnItemClickListener { _, v, position, _ ->
-            if (!cells.flatten()[position].isFlagged) {
-                showCell(cells.flatten()[position])
-                v.cell.setImageResource(cells.flatten()[position].getCellType())
+            if (cellsLeft != 0) {
+                if (!cells.flatten()[position].isFlagged) {
+                    showCell(cells.flatten()[position])
+                    v.cell.setImageResource(cells.flatten()[position].getCellType())
+                    cellsLeft--
+                } else {
+                    Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
+                }
             }else {
-                Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
+                winGame()
             }
         }
         board_grid.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, v, position, _ ->
@@ -89,9 +95,14 @@ class MainActivity : AppCompatActivity() {
         refresh()
         title_txtview.text = getString(R.string.gameOver)
     }
-
-    private fun expand() {
-        
+    private fun winGame() {
+        for (i in 0..NUM_COL-1) {
+            for (j in 0..NUM_COL-1) {
+                cells[i][j].isClicked = true
+            }
+        }
+        refresh()
+        title_txtview.text = getString(R.string.win)
     }
 
 }

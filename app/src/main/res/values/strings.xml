@@ -2,5 +2,6 @@
     <string name="app_name">Minesweeper</string>
     <string name="reset">Reset</string>
     <string name="gameOver">Game Over!</string>
+    <string name="win">You Win!</string>
 </resources>
 

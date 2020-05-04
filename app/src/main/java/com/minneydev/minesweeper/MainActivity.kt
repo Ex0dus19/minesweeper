@@ -47,13 +47,11 @@ class MainActivity : AppCompatActivity() {
         reset_btn.setOnClickListener {
             initialize()
         }
-        reset_btn.setOnLongClickListener {
-            Toast.makeText(this, "Long Click Detected", Toast.LENGTH_SHORT).show()
-            return@setOnLongClickListener true
-        }
+
     }
 
     private fun initialize() {
+        cellsLeft = ((NUM_COL* NUM_COL) - NUM_BOMB)
         cells = Array(NUM_COL) {row ->
             Array(NUM_COL) {col ->
                 Cell(false,row,col)

@@ -69,7 +69,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun flagCell(cell: Cell) {
-        cell.isFlagged = true
+        if (cell.isFlagged) {
+            cell.isFlagged = false
+        }else {
+            cell.isFlagged = true
+        }
     }
     private fun refresh() {
         gridAdapter = BoardGridAdapter(this,cells.flatten())
@@ -84,6 +88,10 @@ class MainActivity : AppCompatActivity() {
         }
         refresh()
         title_txtview.text = getString(R.string.gameOver)
+    }
+
+    private fun expand() {
+        
     }
 
 }

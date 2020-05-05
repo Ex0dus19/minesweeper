@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
                     showCell(cells.flatten()[position])
                     v.cell.setImageResource(cells.flatten()[position].getCellType())
                     cellsLeft--
+                    println("Num Cells: $cellsLeft")
                 } else {
                     Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
                 }
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initialize() {
         cellsLeft = ((NUM_COL* NUM_COL) - NUM_BOMB)
+        println("Num Cells: $cellsLeft")
         cells = Array(NUM_COL) {row ->
             Array(NUM_COL) {col ->
                 Cell(false,row,col)

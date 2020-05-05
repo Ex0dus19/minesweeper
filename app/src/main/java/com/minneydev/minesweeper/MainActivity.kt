@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
                 }
             }else {
-                winGame()
+                endGame(1)
             }
         }
         board_grid.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, v, position, _ ->
@@ -64,14 +64,21 @@ class MainActivity : AppCompatActivity() {
             cells[row][col].isBomb = true
         }
         refresh()
-
     }
+
     private fun showCell(cell: Cell) {
         cell.isClicked = true
         if (cell.isBomb) {
-            endGame()
-        }
+            endGame(0)
+        }/*else {
+            //Code derived from prof code
+            var adjCells : List<Cell> = cell.getAdjCells()
+            adjCells.filter { !it.isClicked }.forEach {
+                showCell(it)
+            }
+        }*/
     }
+
     private fun flagCell(cell: Cell) {
         if (cell.isFlagged) {
             cell.isFlagged = false
@@ -84,24 +91,21 @@ class MainActivity : AppCompatActivity() {
         board_grid.adapter = gridAdapter
         title_txtview.text = getString(R.string.app_name)
     }
-    private fun endGame() {
+    private fun endGame(outcome: Int) {
         for (i in 0..NUM_COL-1) {
             for (j in 0..NUM_COL-1) {
                 cells[i][j].isClicked = true
             }
         }
         refresh()
-        title_txtview.text = getString(R.string.gameOver)
-    }
-    private fun winGame() {
-        for (i in 0..NUM_COL-1) {
-            for (j in 0..NUM_COL-1) {
-                cells[i][j].isClicked = true
-            }
+        when (outcome) {
+            0 -> title_txtview.text = getString(R.string.gameOver)
+            1 -> title_txtview.text = getString(R.string.win)
         }
-        refresh()
-        title_txtview.text = getString(R.string.win)
+
     }
+
+
 
 }
 

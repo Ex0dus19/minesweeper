@@ -13,7 +13,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="32dp"
-        android:text="Place Holder"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -22,8 +21,8 @@
 
     <GridView
         android:id="@+id/board_grid"
-        android:layout_width="309dp"
-        android:layout_height="433dp"
+        android:layout_width="383dp"
+        android:layout_height="426dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="36dp"
         android:layout_marginEnd="24dp"

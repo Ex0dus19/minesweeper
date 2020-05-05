@@ -5,34 +5,34 @@ class Cell (private var cl: Boolean, private  val r: Int, private  val c: Int) {
     var isBomb = false    //cell is a bomb
     var isFlagged = false //cell is flagged
     var hasEx = false
-    private var numAdjBombs = 0   //bombs near cell
+    var numAdjBombs = 0   //bombs near cell
     //Thanks for the code advice lol
 
-    fun getAdjCells() : List<Cell> {
+    fun getAdjCells(cell: Cell) : List<Cell> {
         var tempAdjCells = mutableListOf<Cell?>()
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r-1)?.getOrNull(this.c-1))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r-1)?.getOrNull(this.c))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r-1)?.getOrNull(this.c+1))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r)?.getOrNull(this.c-1))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r)?.getOrNull(this.c+1))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r+1)?.getOrNull(this.c-1))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r+1)?.getOrNull(this.c))
-        tempAdjCells.add(MainActivity.cells.getOrNull(this.r+1)?.getOrNull(this.c+1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r-1)?.getOrNull(cell.c-1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r-1)?.getOrNull(cell.c))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r-1)?.getOrNull(cell.c+1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r)?.getOrNull(cell.c-1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r)?.getOrNull(cell.c+1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r+1)?.getOrNull(cell.c-1))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r+1)?.getOrNull(cell.c))
+        tempAdjCells.add(MainActivity.cells.getOrNull(cell.r+1)?.getOrNull(cell.c+1))
         return tempAdjCells.toList().filterNotNull()
     }
 
     fun getCellType() : Int {
+        if (!hasEx) {
+            val adjCells: List<Cell> = getAdjCells(this)
+            adjCells.forEach() {
+                if (it.isBomb) {
+                    numAdjBombs++
+                }
+            }
+            hasEx = true
+        }
         if (isClicked) {
             if (!isBomb) {
-                if (!hasEx) {
-                    val adjCells: List<Cell> = getAdjCells()
-                    adjCells.forEach() {
-                        if (it.isBomb) {
-                            numAdjBombs++
-                        }
-                    }
-                    hasEx = true
-                }
                 when (numAdjBombs) {
                     0 -> return R.drawable.cell_0
                     1 -> return R.drawable.cell_1

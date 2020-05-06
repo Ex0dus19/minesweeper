@@ -15,9 +15,8 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var cells: Array<Array<Cell>> //2d array to make the board easier to work with
         const val NUM_COL = 10
-        const val NUM_BOMB = 10
+        const val NUM_BOMB = 15
     }
-    private var cellsLeft = ((NUM_COL* NUM_COL) - NUM_BOMB)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,16 +24,11 @@ class MainActivity : AppCompatActivity() {
         board_grid.numColumns = NUM_COL
         reset_btn.text = getString(R.string.reset)
         initialize()
-        board_grid.onItemClickListener = AdapterView.OnItemClickListener { _, v, position, _ ->
-            if (cellsLeft != 0) {
-                if (!cells.flatten()[position].isFlagged) {
-                    showCell(cells.flatten()[position])
-                    println("Num Cells: $cellsLeft")
-                } else {
-                    Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
-                }
-            }else {
-                endGame(1)
+        board_grid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+            if (!cells.flatten()[position].isFlagged) {
+                showCell(cells.flatten()[position])
+            } else {
+                Toast.makeText(this, "Cell Is Flagged", Toast.LENGTH_SHORT).show()
             }
         }
         board_grid.onItemLongClickListener = AdapterView.OnItemLongClickListener { _, _, position, _ ->
@@ -50,8 +44,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
-        cellsLeft = ((NUM_COL* NUM_COL) - NUM_BOMB)
-        println("Num Cells: $cellsLeft")
         cells = Array(NUM_COL) {row ->
             Array(NUM_COL) {col ->
                 Cell(false,row,col)
@@ -67,30 +59,34 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCell(cell: Cell) {
-        if (cell.isBomb) {
-            endGame(0)
-        } else if (cell.numAdjBombs == 0) {
-            Toast.makeText(this, "0 Cell", Toast.LENGTH_SHORT).show()
-            cell.isClicked = true
-            val adjCells: List<Cell> = cell.getAdjCells(cell)
-            adjCells.filter { !it.isBomb }.forEach {
-                it.isClicked = true
-                cellsLeft--
+        when {
+            cell.isBomb -> {
+                endGame(0)
+            }
+            cell.numAdjBombs == 0 -> {
+                cell.isClicked = true
+                expand(cell)
+            }
+            else -> {
+                cell.isClicked = true
                 refresh()
             }
-        }else {
-            cell.isClicked = true
-            cellsLeft--
-            refresh()
+        }
+    }
+
+    private fun expand(cell: Cell) {
+        val adjCells: List<Cell> = cell.getAdjCells(cell)
+        adjCells.filter { !it.isBomb }.forEach {
+            if (!it.isClicked) {
+                it.isClicked = true
+                refresh()
+                showCell(it)
+            }
         }
     }
 
     private fun flagCell(cell: Cell) {
-        if (cell.isFlagged) {
-            cell.isFlagged = false
-        }else {
-            cell.isFlagged = true
-        }
+        cell.isFlagged = !cell.isFlagged
     }
     private fun refresh() {
         gridAdapter = BoardGridAdapter(this,cells.flatten())

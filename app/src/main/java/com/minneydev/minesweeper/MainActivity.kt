@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var cells: Array<Array<Cell>> //2d array to make the board easier to work with
         const val NUM_COL = 10
-        const val NUM_BOMB = 15
+        const val NUM_BOMB = 5
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
-
     private fun initialize() {
         cells = Array(NUM_COL) {row ->
             Array(NUM_COL) {col ->
@@ -59,18 +58,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun showCell(cell: Cell) {
-        when {
-            cell.isBomb -> {
-                endGame(0)
+        if (cell.isBomb) {
+            endGame(0)
+        }else if (cell.numAdjBombs == 0) {
+            cell.isClicked = true
+            expand(cell)
+        }else {
+            cell.isClicked = true
+            refresh()
+            if (isGameWon()) {
+                endGame(1)
             }
-            cell.numAdjBombs == 0 -> {
-                cell.isClicked = true
-                expand(cell)
-            }
-            else -> {
-                cell.isClicked = true
-                refresh()
-            }
+
         }
     }
 
@@ -84,7 +83,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
+    private fun isGameWon() : Boolean {
+        cells.forEach {row: Array<Cell> ->
+            row.forEach {it: Cell ->
+                if (!it.isBomb && !it.isClicked) {
+                    return false
+                }
+            }
+        }
+        return true
+    }
     private fun flagCell(cell: Cell) {
         cell.isFlagged = !cell.isFlagged
     }

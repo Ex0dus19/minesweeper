@@ -3,5 +3,7 @@
     <string name="reset">Reset</string>
     <string name="gameOver">Game Over!</string>
     <string name="win">You Win!</string>
+    <string name="play">Play!</string>
+    <string name="settings">Settings</string>
 </resources>
 

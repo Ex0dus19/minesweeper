@@ -14,14 +14,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var gridAdapter: BoardGridAdapter
     companion object {
         lateinit var cells: Array<Array<Cell>> //2d array to make the board easier to work with
-        const val NUM_COL = 10
-        const val NUM_BOMB = 10
+        var num_col = 10
+        var num_bomb = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        board_grid.numColumns = NUM_COL
+        board_grid.numColumns = num_col
         reset_btn.text = getString(R.string.reset)
         initialize()
         board_grid.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
@@ -43,15 +43,15 @@ class MainActivity : AppCompatActivity() {
 
     }
     private fun initialize() {
-        cells = Array(NUM_COL) {row ->
-            Array(NUM_COL) {col ->
+        cells = Array(num_col) {row ->
+            Array(num_col) {col ->
                 Cell(false,row,col)
             }
         }
         //Set Bombs
-        for (i in 0 until NUM_BOMB) {
-            val row: Int = kotlin.random.Random.nextInt(0, NUM_COL)
-            val col: Int = kotlin.random.Random.nextInt(0, NUM_COL)
+        for (i in 0 until num_bomb) {
+            val row: Int = kotlin.random.Random.nextInt(0, num_col)
+            val col: Int = kotlin.random.Random.nextInt(0, num_col)
             cells[row][col].isBomb = true
         }
         refresh()
@@ -102,8 +102,8 @@ class MainActivity : AppCompatActivity() {
         title_txtview.text = getString(R.string.app_name)
     }
     private fun endGame(outcome: Int) {
-        for (i in 0 until NUM_COL) {
-            for (j in 0 until NUM_COL) {
+        for (i in 0 until num_col) {
+            for (j in 0 until num_col) {
                 cells[i][j].isClicked = true
             }
         }

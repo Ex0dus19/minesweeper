@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         lateinit var cells: Array<Array<Cell>> //2d array to make the board easier to work with
         const val NUM_COL = 10
-        const val NUM_BOMB = 5
+        const val NUM_BOMB = 10
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
